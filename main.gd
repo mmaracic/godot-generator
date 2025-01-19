@@ -12,7 +12,8 @@ func _process(delta: float) -> void:
 
 func _on_texture_display(textureRect:TextureRect) -> void:
 	var window:Window = $Window
-	window.get_children().clear()
+	for child:Node in window.get_children():
+		child.queue_free()
 	textureRect.size = window.size
 	window.add_child(textureRect)
 	print(textureRect.position, textureRect.size, textureRect.visible)

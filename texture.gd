@@ -22,21 +22,30 @@ func _on_new_pressed() -> void:
 	
 	
 func init() -> void:
-	#image = Image.create_empty(640, 480, false, Image.FORMAT_RGBA8)
-	image = Image.load_from_file("res://assets/philipp-dusel-vNVwg35VZrg-unsplash.jpg")
-	imageTexture = ImageTexture.create_from_image(image)
-	textureRect = TextureRect.new()
-	textureRect.expand_mode = TextureRect.EXPAND_FIT_WIDTH
-	textureRect.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT
-	textureRect.set_anchors_preset(Control.PRESET_TOP_LEFT)
-	textureRect.texture = imageTexture
-	#textureRect.draw_line(Vector2(0,0), Vector2(100,100), Color.WEB_GREEN)
-	display.emit(textureRect)
+		image = Image.create_empty(640, 480, false, Image.FORMAT_RGBA8)
+		imageTexture = ImageTexture.create_from_image(image)
+		
+		textureRect = TextureRect.new()
+		textureRect.expand_mode = TextureRect.EXPAND_FIT_WIDTH
+		textureRect.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT
+		textureRect.set_anchors_preset(Control.PRESET_TOP_LEFT)
+		textureRect.texture = imageTexture
+		#Below does not work for some reason
+		#textureRect.draw_line(Vector2(0,0), Vector2(100,100), Color.WEB_GREEN)
+		display.emit(textureRect)
+		
+		#If textureRect exists it is enough to call below lines to reset texture content
+		#image = Image.create_empty(640, 480, false, Image.FORMAT_RGBA8)
+		#imageTexture.update(image)
+		
 	
-
+func drawRect(image:Image, leftTop:Vector2, rightBottom:Vector2, color:Color) -> void:
+	for x in range(leftTop[0], rightBottom[0]):
+		for y in range(leftTop[1], rightBottom[1]):
+			image.set_pixel(x, y, color)
 
 func _on_generate_pressed() -> void:
-	#if (textureRect == null):
+	if (textureRect == null):
 		init()
-		
-	#imageTexture.update(image)
+	drawRect(image, Vector2(50,50), Vector2(320,240),Color.RED)
+	imageTexture.update(image)
