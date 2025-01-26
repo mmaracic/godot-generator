@@ -1,10 +1,10 @@
-extends Panel
+extends Experiment
+
+var TextureGenerator = preload("res://scripts/texture_generator.gd")
 
 var image:Image
 var imageTexture:ImageTexture
 var textureRect:TextureRect
-
-signal display
 
 
 # Called when the node enters the scene tree for the first time.
@@ -39,13 +39,9 @@ func init() -> void:
 		#imageTexture.update(image)
 		
 	
-func drawRect(image:Image, leftTop:Vector2, rightBottom:Vector2, color:Color) -> void:
-	for x in range(leftTop[0], rightBottom[0]):
-		for y in range(leftTop[1], rightBottom[1]):
-			image.set_pixel(x, y, color)
 
 func _on_generate_pressed() -> void:
 	if (textureRect == null):
 		init()
-	drawRect(image, Vector2(50,50), Vector2(320,240),Color.RED)
+	TextureGenerator.drawRect(image, Vector2(50,50), Vector2(320,240),Color.RED)
 	imageTexture.update(image)

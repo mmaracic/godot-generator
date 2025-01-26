@@ -1,0 +1,34 @@
+[gd_scene load_steps=8 format=3 uid="uid://qn6ifukqtgx7"]
+
+[ext_resource type="PackedScene" uid="uid://brhmyx87lg7gm" path="res://assets/spaceshipSmall.glb" id="1_ewyrh"]
+[ext_resource type="Shader" path="res://shaders/space.gdshader" id="1_ilbv2"]
+
+[sub_resource type="FastNoiseLite" id="FastNoiseLite_l1xb0"]
+seed = 7
+
+[sub_resource type="NoiseTexture2D" id="NoiseTexture2D_otju4"]
+noise = SubResource("FastNoiseLite_l1xb0")
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_ffx76"]
+shader = ExtResource("1_ilbv2")
+shader_parameter/stars = SubResource("NoiseTexture2D_otju4")
+
+[sub_resource type="Sky" id="Sky_qubl5"]
+sky_material = SubResource("ShaderMaterial_ffx76")
+
+[sub_resource type="Environment" id="Environment_1gqmq"]
+background_mode = 2
+sky = SubResource("Sky_qubl5")
+
+[node name="Node3D" type="Node3D"]
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = SubResource("Environment_1gqmq")
+
+[node name="spaceshipSmall" parent="." instance=ExtResource("1_ewyrh")]
+
+[node name="Marker3D" type="Marker3D" parent="."]
+transform = Transform3D(0.707107, -0.5, 0.5, 0, 0.707107, 0.707107, -0.707107, -0.5, 0.5, 3, 3, 3)
+
+[node name="Camera3D" type="Camera3D" parent="Marker3D"]
+fov = 95.0
